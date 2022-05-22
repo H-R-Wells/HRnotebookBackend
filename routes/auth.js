@@ -12,7 +12,7 @@ const fetchuser = require("../middleware/fetchuser");
 const JWT_SECRET = 'ShubhamIsChutiya';
 
 
-// Just a message at web page about what we are doing at this endpoint
+// Just a message on web page about what we are doing at this endpoint
 router.get('/createuser', (req, res) => {
   res.send("We are creating a user at this endpoint");
 });
@@ -157,7 +157,7 @@ router.post('/login',
       res.json(authToken);
 
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       res.status(500).send("Internal Server Error")
     }
   })
@@ -174,7 +174,7 @@ router.post('/login',
 
 
 
-// ROUTE 3 : Get logedin user datils using: POST "api/auth/getuser". Login required.
+// ROUTE 3 : Get loggedin user datils using: POST "api/auth/getuser". Login required.
 router.post('/getuser', fetchuser ,async (req, res) => {
     try {
       userId = req.user.id;
@@ -182,7 +182,7 @@ router.post('/getuser', fetchuser ,async (req, res) => {
       res.send(user);
 
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       res.status(500).send("Internal Server Error")
     }
   })
