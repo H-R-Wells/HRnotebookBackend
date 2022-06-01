@@ -9,7 +9,7 @@ var jwt = require('jsonwebtoken');
 const fetchuser = require("../middleware/fetchuser");
 
 
-const JWT_SECRET = 'ShubhamIsChutiya';
+const JWT_SECRET = 'ShubhamKadam';
 
 
 // Just a message on web page about what we are doing at this endpoint
@@ -123,6 +123,7 @@ router.post('/login',
 
 
   async (req, res) => {
+    let success = false;
 
 
 
@@ -143,7 +144,7 @@ router.post('/login',
 
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
-        return res.status(400).json({ error: "Please check your id or password" })
+        return res.status(400).json({ success, error: "Please check your id or password" })
       }
 
       const data = {
@@ -152,9 +153,9 @@ router.post('/login',
         }
       }
       const authToken = jwt.sign(data, JWT_SECRET);
-
+      success = true;
       // res.json(user)
-      res.json(authToken);
+      res.json({success, authToken});
 
     } catch (error) {
       console.error(error.message);
@@ -175,16 +176,16 @@ router.post('/login',
 
 
 // ROUTE 3 : Get loggedin user datils using: POST "api/auth/getuser". Login required.
-router.post('/getuser', fetchuser ,async (req, res) => {
-    try {
-      userId = req.user.id;
-      const user = await User.findById(userId).select("-password");
-      res.send(user);
+router.post('/getuser', fetchuser, async (req, res) => {
+  try {
+    userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    res.send(user);
 
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).send("Internal Server Error")
-    }
-  })
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error")
+  }
+})
 
 module.exports = router
