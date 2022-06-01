@@ -43,6 +43,7 @@ router.post('/createuser',
 
 
   async (req, res) => {
+    let success = false;
 
 
 
@@ -81,11 +82,11 @@ router.post('/createuser',
         }
       }
       const authToken = jwt.sign(data, JWT_SECRET);
-
+      success = true;
 
 
       // res.json(user)
-      res.json(authToken);
+      res.json({ success, authToken });
 
 
 
@@ -155,7 +156,7 @@ router.post('/login',
       const authToken = jwt.sign(data, JWT_SECRET);
       success = true;
       // res.json(user)
-      res.json({success, authToken});
+      res.json({ success, authToken });
 
     } catch (error) {
       console.error(error.message);
