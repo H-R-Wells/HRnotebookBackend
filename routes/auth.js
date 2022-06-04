@@ -1,4 +1,3 @@
-const { Router } = require("express");
 const express = require("express");
 const User = require("../models/User");
 const router = express.Router();
@@ -9,7 +8,7 @@ var jwt = require('jsonwebtoken');
 const fetchuser = require("../middleware/fetchuser");
 
 
-const JWT_SECRET = 'ShubhamKadam';
+const JWT_SECRET = 'VijayKumar';
 
 
 // Just a message on web page about what we are doing at this endpoint
