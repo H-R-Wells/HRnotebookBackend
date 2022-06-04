@@ -36,7 +36,7 @@ router.get('/createuser', (req, res) => {
 // ROUTE 1:  Create a user using: POST "api/auth/createuser". No login required
 router.post('/createuser',
   [
-    body('name', 'Enter a valid name').isLength({ min: 5 }),
+    body('name', 'Enter a valid name').isLength({ min: 2 }),
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password must be atleast 5 char').isLength({ min: 5 })
   ],
@@ -55,15 +55,16 @@ router.post('/createuser',
 
 
 
-    // Check whether the user with this email is already exists 
     try {
       let user = await User.findOne({ email: req.body.email });
+      // Check whether the user with this email is already exists
       if (user) {
         return res.status(404).json({ error: "User already exist with this email id" })
       }
 
+
       // Add salt 
-      const salt = await bcrypt.genSaltSync(10);
+      const salt = bcrypt.genSaltSync(10);
       const secPass = await bcrypt.hash(req.body.password, salt);
 
 
